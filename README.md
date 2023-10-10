@@ -103,4 +103,16 @@ $ chmod +x install-opencv.sh
 $ ./install-opencv.sh
 $ sudo apt-get install ros-melodic-cv-bridge
 ```  
+## 使用方法
+
+### シミュレーター起動用コマンド
+
+```
+roslaunch color_divide_robot_s_n crane_x7_with_table.launch
+```
+
+### 実機起動用コマンド
+
+
+```
 
