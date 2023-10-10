@@ -1,4 +1,4 @@
-# color_divide_robot_S_N
+# color_divide_robot_s_n
 ロボット製作論3の課題です。
 
 ## 実装内容
