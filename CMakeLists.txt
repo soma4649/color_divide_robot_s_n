@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(color_divide_robot_S_N)
+project(color_divide_robot_s_n)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
