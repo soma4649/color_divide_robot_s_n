@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <%
-  # Wood block with dimensions 10 x 10 x 0.1 cm
+  # Wood block with dimensions 15 x 15 x 0.5 cm
   # SI units (length in meters)
   # Geometry
   dx = 0.05
