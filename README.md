@@ -107,9 +107,6 @@ $ sudo apt-get install ros-melodic-cv-bridge
 
 ### シミュレーター起動用コマンド
 
-```
-roslaunch color_divide_robot_s_n crane_x7_with_table.launch
-```
 - **~/.bashrc**内の一番下のコードが、以下になるようにしてください。
 ```bash
 source /opt/ros/noetic/setup.bash
@@ -123,6 +120,14 @@ export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZE
 $ cd ~/catkin_ws/
 $ catkin_make
 $ source ~/.bashrc
+```
+- 以上のコードを実行
+```
+export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZEBO_MODEL_PATH
+```
+- gazeboを起動
+```
+roslaunch color_divide_robot_s_n crane_x7_with_table.launch
 ```
 
 ### 実機起動用コマンド
