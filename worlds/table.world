@@ -17,15 +17,6 @@
       <!-- X7を机の端に配置するため、机を移動、回転する -->
       <pose>0.29 0 0 0 0 1.5708</pose>
     </model>
-
-    <model name="wood_cube_5cm">
-      <include>
-        <uri>model://wood_cube_5cm</uri>
-      </include>
-
-      <pose>0.20 0 1.0 0 0 0</pose>
-    </model>
-
      <model name="wood_cube_7cm_1">
       <include>
         <uri>model://wood_cube_7cm_1</uri>
