@@ -110,6 +110,14 @@ $ sudo apt-get install ros-melodic-cv-bridge
 ```
 roslaunch color_divide_robot_s_n crane_x7_with_table.launch
 ```
+- **~/.bashrc**内の一番下のコードが、以下になるようにしてください。
+```bash
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+export ROS_MASTER_URI=http://localhost:11311
+export ROS_HOSTNAME=localhost
+export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/team4_robotdesign3_2021/description/models:$GAZEBO_MODEL_PATH
+```
 
 ### 実機起動用コマンド
 
