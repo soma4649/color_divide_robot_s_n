@@ -118,6 +118,12 @@ export ROS_MASTER_URI=http://localhost:11311
 export ROS_HOSTNAME=localhost
 export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZEBO_MODEL_PATH
 ```
+- 以上が完了したら、以下のコマンドを使用してビルドしてください。
+```bash
+$ cd ~/catkin_ws/
+$ catkin_make
+$ source ~/.bashrc
+```
 
 ### 実機起動用コマンド
 
