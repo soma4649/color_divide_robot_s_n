@@ -28,7 +28,7 @@
 
      <model name="wood_cube_5cm_red">
       <include>
-        <uri>model://wood_cube_5cm_red</uri>
+        <uri>model://wood_cube_5cm</uri>
       </include>
 
       <pose>0.05 0.20 1.0 0 0 0</pose>
@@ -44,7 +44,7 @@
 
     <model name="sheet_blue">
       <include>
-        <uri>model://sheet_blue</uri>
+        <uri>model://sheet_red</uri>
       </include>
 
       <pose>0.20 -0.20 1.01 0 0 0</pose>
