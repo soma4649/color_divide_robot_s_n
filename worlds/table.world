@@ -26,6 +26,14 @@
       <pose>0.20 0 1.0 0 0 0</pose>
     </model>
 
+     <model name="wood_cube_7cm_1">
+      <include>
+        <uri>model://wood_cube_7cm_1</uri>
+      </include>
+
+      <pose>0.20 0.20 1.0 0 0 0</pose>
+    </model>
+
     <model name="ground_plane">
       <include>
         <uri>model://ground_plane</uri>
