@@ -18,7 +18,7 @@
       <collision name="collision">
         <geometry>
           <box>
-            <size>0.20 0.10 0.05</size>
+            <size>0.20 0.10 0.01</size>
           </box>
         </geometry>
         <surface>
@@ -56,14 +56,11 @@
       <visual name="visual">
         <geometry>
           <box>
-            <size>0.20 0.10 0.05</size>
+            <size>0.20 0.10 0.01</size>
           </box>
         </geometry>
         <material>
-          <ambient>0 1 0 1</ambient>
-	  <diffuse>1 0 0 1</diffuse>
-	  <specular>0.1 0.1 0.1 1</specular>
-          <emissive>0 0 0 0</emissive>
+          <color rgba="0.8 0.0 0.0 1.0"/>
         </material>
       </visual>
 
