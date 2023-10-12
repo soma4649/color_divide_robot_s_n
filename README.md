@@ -118,6 +118,7 @@ export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZE
 - 以上が完了したら、以下のコマンドを使用してビルドしてください。
 ```bash
 $ cd ~/catkin_ws/
+$ chmod +x main.py
 $ catkin_make
 $ source ~/.bashrc
 ```
