@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <%
-  # Wood block with dimensions 15 x 15 x 0.5 cm
+  # Wood block with dimensions 20 x 10 x 5 cm
   # SI units (length in meters)
   # Geometry
   dx = 0.05
@@ -51,10 +51,10 @@
           </box>
         </geometry>
         <material>
-          <script>
-            <uri>file://media/materials/scripts/gazebo.material</uri>
-            <name>Gazebo/Wood</name>
-          </script>
+          <ambient>0 1 0 1</ambient>
+	        <diffuse>0 1 0 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+          <emissive>0 0 0 0</emissive>
         </material>
       </visual>
 
