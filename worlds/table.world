@@ -66,9 +66,9 @@
       <pose>0.30 0.40 1.0 0 0 0</pose>
     </model>
 
-    <model name="cubu_blue">
+    <model name="cubu_green">
       <include>
-        <uri>model://cubu_blue</uri>
+        <uri>model://cubu_green</uri>
       </include>
 
       <pose>0.10 0.40 1.0 0 0 0</pose>
