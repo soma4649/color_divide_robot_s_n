@@ -129,7 +129,10 @@ export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZE
 ```
 roslaunch color_divide_robot_s_n crane_x7_with_table.launch
 ```
-
+- main.pyより実行
+```
+rosrun color_divide_robot_s_n main.py
+```
 ### 実機起動用コマンド
 
 
