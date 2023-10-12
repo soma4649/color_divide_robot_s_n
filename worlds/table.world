@@ -18,22 +18,6 @@
       <pose>0.29 0 0 0 0 1.5708</pose>
     </model>
 
-    <model name="wood_cube_5cm">
-      <include>
-        <uri>model://wood_cube_5cm</uri>
-      </include>
-
-      <pose>0.30 0.20 1.0 0 0 0</pose>
-    </model>
-
-     <model name="wood_cube_5cm_red">
-      <include>
-        <uri>model://wood_cube_5cm_red</uri>
-      </include>
-
-      <pose>0.10 0.20 1.0 0 0 0</pose>
-    </model>
-
     <model name="sheet_red">
       <include>
         <uri>model://sheet_red</uri>
