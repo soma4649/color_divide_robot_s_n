@@ -180,7 +180,7 @@ def main():
 
 
 if __name__ == '__main__':
-    rospy.init_node("pick_and_place_in_gazebo_example")
+    rospy.init_node("color_divide_robot_s_n")
 
     try:
         if not rospy.is_shutdown():
