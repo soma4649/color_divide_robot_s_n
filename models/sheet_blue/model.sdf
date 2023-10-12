@@ -60,10 +60,10 @@
           </box>
         </geometry>
         <material>
-         <ambient>1 0 1 0</ambient>
-				 <diffuse>1 0 1 0</diffuse>
-			   <specular>0.1 0.1 0.1 1</specular>
-				 <emissive>0 0 0 0</emissive>
+         <ambient>1 1 0 0</ambient>
+	 <diffuse>1 1 0 0</diffuse>
+         <specular>0.1 0.1 0.1 1</specular>
+	 <emissive>0 0 0 0</emissive>
         </material>
       </visual>
 
