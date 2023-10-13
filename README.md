@@ -130,7 +130,7 @@ export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZE
 ```
 - gazeboを起動
 ```
-roslaunch color_divide_robot_s_n crane_x7_with_table.launch
+roslaunch color_divide_robot_s_n crane_x7_with_table.launch use_effort_gripper:=true
 ```
 - main.pyより実行
 ```
