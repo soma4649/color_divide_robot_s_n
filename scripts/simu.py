@@ -159,28 +159,28 @@ def move(ball_num, box_num):
     box_position = {'x': 0, 'y': 0}
     if ball_num == 0:
         ball_position['x'] = 0.35
-        ball_position['y'] = 0.20
-        ball_position['z'] = 0.1
+        ball_position['y'] = 0.10
+        ball_position['z'] = 0.095
     elif ball_num == 1:
         ball_position['x'] = 0.35
-        ball_position['y'] = 0.30
-        ball_position['z'] = 0.1
+        ball_position['y'] = 0.20
+        ball_position['z'] = 0.095
     elif ball_num == 2:
         ball_position['x'] = 0.25
-        ball_position['y'] = 0.20
-        ball_position['z'] = 0.1
+        ball_position['y'] = 0.10
+        ball_position['z'] = 0.095
     elif ball_num == 3:
         ball_position['x'] = 0.25
-        ball_position['y'] = 0.30
-        ball_position['z'] = 0.1
+        ball_position['y'] = 0.20
+        ball_position['z'] = 0.095
     elif ball_num == 4:
         ball_position['x'] = 0.15
-        ball_position['y'] = 0.20
-        ball_position['z'] = 0.1
+        ball_position['y'] = 0.10
+        ball_position['z'] = 0.095
     else:
         ball_position['x'] = 0.15
-        ball_position['y'] = 0.30
-        ball_position['z'] = 0.1
+        ball_position['y'] = 0.20
+        ball_position['z'] = 0.095
         
     # 箱の座標
     if box_num == 0:
@@ -191,7 +191,7 @@ def move(ball_num, box_num):
         box_position['y'] = -0.20
     
     # ハンドを開く
-    gripper.set_joint_value_target([0.9, 0.9])
+    gripper.set_joint_value_target([0.8, 0.8])
     gripper.go()
 
     # 掴みに行く　各ボールの座標を入れる 
