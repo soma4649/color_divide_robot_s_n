@@ -13,8 +13,14 @@
 ROS Galactic Geochelone
 
 OS: Ubuntu 20.04.5 LTS
+
+
 ROS Distribution: Galactic Geochelone
+
+
 Rviz 1.14.10
+
+
 Gazebo 11.9.0 crane_x7 IntelRealSense
 
 ---
