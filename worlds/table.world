@@ -47,7 +47,7 @@
         <uri>model://cube_red</uri>
       </include>
 
-      <pose>0.30 0.20 1.0 0 0 0</pose>
+      <pose>0.25 0.20 1.0 0 0 0</pose>
     </model>
 
     <model name="cube_blue">
@@ -63,7 +63,7 @@
         <uri>model://cube_yellow</uri>
       </include>
 
-      <pose>0.30 0.3 1.0 0 0 0</pose>
+      <pose>0.25 0.30 1.0 0 0 0</pose>
     </model>
 
     <model name="cube_green">
@@ -71,7 +71,23 @@
         <uri>model://cube_green</uri>
       </include>
 
-      <pose>0.15 0.3 1.0 0 0 0</pose>
+      <pose>0.15 0.30 1.0 0 0 0</pose>
+    </model>
+
+     <model name="cube_red2">
+      <include>
+        <uri>model://cube_red</uri>
+      </include>
+
+      <pose>0.40 0.30 1.0 0 0 0</pose>
+    </model>
+
+     <model name="cube_green2">
+      <include>
+        <uri>model://cube_green</uri>
+      </include>
+
+      <pose>0.40 0.20 1.0 0 0 0</pose>
     </model>
 
     <model name="ground_plane">
