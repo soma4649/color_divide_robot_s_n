@@ -14,10 +14,10 @@
 ## 参考にしたサイト
 
 ### zageboへの色の付け方
-　・ROS講座87 Gazebo世界を明るくする　[こちら](https://qiita.com/srs/items/49e71932c1ef469b3049)
+　・ROS講座87 Gazebo世界を明るくする [こちら](https://qiita.com/srs/items/49e71932c1ef469b3049)
 　・gazeboを使いこなす！ [こちら](https://qiita.com/Karin-Sugi/items/4918168649a8fb9b35d3)
 
  
 ### 画像処理について
     
-　・色空間の変換　[こちら](http://labs.eecs.tottori-u.ac.jp/sd/Member/oyamada/OpenCV/html/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html)
+　・色空間の変換 [こちら](http://labs.eecs.tottori-u.ac.jp/sd/Member/oyamada/OpenCV/html/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html)
