@@ -15,7 +15,7 @@
 
 ### zageboへの色の付け方
 　・ROS講座87 Gazebo世界を明るくする　[こちら](https://qiita.com/srs/items/49e71932c1ef469b3049)
-　・gazeboを使いこなす！　[こちら](https://qiita.com/Karin-Sugi/items/4918168649a8fb9b35d3)
+　・gazeboを使いこなす！ [こちら](https://qiita.com/Karin-Sugi/items/4918168649a8fb9b35d3)
 
  
 ### 画像処理について
