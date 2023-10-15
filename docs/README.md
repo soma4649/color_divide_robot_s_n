@@ -54,9 +54,9 @@
         </geometry>
         <material>
          <ambient>1 0 0 1</ambient>
-				     <diffuse>1 0 0 1</diffuse>
-	        <specular>0.1 0.1 0.1 1</specular>
-	        <emissive>0 0 0 0</emissive>
+         <diffuse>1 0 0 1</diffuse>
+	 <specular>0.1 0.1 0.1 1</specular>
+	 <emissive>0 0 0 0</emissive>
         </material>
       </visual>
 ```
