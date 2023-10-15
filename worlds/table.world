@@ -42,33 +42,33 @@
       <pose>0.50 0.0 1.0 0 0 0</pose>
     </model>
 
-    <model name="cubu_red">
+    <model name="cube_red">
       <include>
-        <uri>model://cubu_red</uri>
+        <uri>model://cube_red</uri>
       </include>
 
       <pose>0.30 0.20 1.0 0 0 0</pose>
     </model>
 
-    <model name="cubu_blue">
+    <model name="cube_blue">
       <include>
-        <uri>model://cubu_blue</uri>
+        <uri>model://cube_blue</uri>
       </include>
 
       <pose>0.15 0.20 1.0 0 0 0</pose>
     </model>
 
-    <model name="cubu_yellow">
+    <model name="cube_yellow">
       <include>
-        <uri>model://cubu_yellow</uri>
+        <uri>model://cube_yellow</uri>
       </include>
 
       <pose>0.30 0.3 1.0 0 0 0</pose>
     </model>
 
-    <model name="cubu_green">
+    <model name="cube_green">
       <include>
-        <uri>model://cubu_green</uri>
+        <uri>model://cube_green</uri>
       </include>
 
       <pose>0.15 0.3 1.0 0 0 0</pose>
