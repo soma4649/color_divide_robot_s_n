@@ -14,6 +14,7 @@
 ## 参考にしたサイト
 
 ### zageboへの色の付け方
+
 　・ROS講座87 Gazebo世界を明るくする [こちら](https://qiita.com/srs/items/49e71932c1ef469b3049)
 　・gazeboを使いこなす！ [こちら](https://qiita.com/Karin-Sugi/items/4918168649a8fb9b35d3)
 
@@ -22,9 +23,52 @@
     
 　・色空間の変換 [こちら](http://labs.eecs.tottori-u.ac.jp/sd/Member/oyamada/OpenCV/html/py_tutorials/py_imgproc/py_colorspaces/py_colorspaces.html)
 
+### README.mの書き方について
+
+　・GitHub – READMEの作成方法と書き方 [こちら](https://howpon.com/8334)
+ 
 ## 苦戦した点
 
+#### 自分のリポジトリのmodelをgazeboに表示させる　　　
 
-　・自分のリポジトリのmodelをgazeboに表示させる　　　[解決策]()
-　・gazeboのmodelに色をつける。　　　[解決策]()
+ 解決策⇒
+
+ ./~bashrcの中を以下のように書き換えることでパスが通り、モデルが表示されるようになる。
+ 
+### gazeboのmodelに色をつける。　　　
+
+ 解決策⇒
+
+ モデルのsdfファイルの中を書き換える。書き換え方は以下の通り。
+ 
+ sdfファイルの<visual>の中の<material>に以下のコードを記述。
+
+ <赤色の場合>
+
+ ```
+<visual name="visual">
+        <geometry>
+          <box>
+            <size>0.04 0.04 0.04</size>
+          </box>
+        </geometry>
+        <material>
+         <ambient>1 0 0 1</ambient>
+				     <diffuse>1 0 0 1</diffuse>
+	        <specular>0.1 0.1 0.1 1</specular>
+	        <emissive>0 0 0 0</emissive>
+        </material>
+      </visual>
+```
+
+
+
+
+
+
+
+
+
+
+ 
  
