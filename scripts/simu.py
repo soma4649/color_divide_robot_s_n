@@ -160,19 +160,27 @@ def move(ball_num, box_num):
     if ball_num == 0:
         ball_position['x'] = 0.30
         ball_position['y'] = 0.20
-        ball_position['z'] = 0.07
+        ball_position['z'] = 0.95
     elif ball_num == 1:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.20
-        ball_position['z'] = 0.07
+        ball_position['z'] = 0.95
     elif ball_num == 2:
         ball_position['x'] = 0.30
         ball_position['y'] = 0.30
-        ball_position['z'] = 0.07
+        ball_position['z'] = 0.95
+    elif ball_num == 3:
+        ball_position['x'] = 0.15
+        ball_position['y'] = 0.20
+        ball_position['z'] = 0.95
+    elif ball_num == 4:
+        ball_position['x'] = 0.30
+        ball_position['y'] = 0.30
+        ball_position['z'] = 0.95
     else:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.30
-        ball_position['z'] = 0.07
+        ball_position['z'] = 0.95
         
     # 箱の座標
     if box_num == 0:
