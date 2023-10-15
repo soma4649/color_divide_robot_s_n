@@ -33,8 +33,17 @@
 
  解決策⇒
 
- ./~bashrcの中を以下のように書き換えることでパスが通り、モデルが表示されるようになる。
- 
+ ~/.bashrcの中を以下のように書き換えることでパスが通り、モデルが表示されるようになる。
+
+ ```
+source /opt/ros/noetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+export ROS_MASTER_URI=http://localhost:11311
+export ROS_HOSTNAME=localhost
+export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZEBO_MODEL_PATH
+```
+今回はcolor_divide_robot_s_n/modelsとなっているが、ここの部分は自分が表示させたいファイルに変更する。
+
 ### gazeboのmodelに色をつける。　　　
 
  解決策⇒
@@ -60,9 +69,17 @@
         </material>
       </visual>
 ```
+ <geometry>はシュミレーションに表示させる物体の"見える"大きさを、<material>はシュミレーションに表示させる物体の材質や見え方を変更できる。
 
+ 他の色を使いたい場合は、 <ambient>と<diffuse>を変更する。
 
+ <例>
 
+青色　<ambient>0 0 1 1</ambient> <diffuse>0 0 1 1</diffuse>
+
+緑色　<ambient>0 1 0 1</ambient> <diffuse>0 1 0 1</diffuse>
+
+黃色　<ambient>1 1 0 1</ambient> <diffuse>1 1 0 1</diffuse>
 
 
 
