@@ -158,24 +158,24 @@ def move(ball_num, box_num):
     ball_position = {'x': 0, 'y': 0, 'z': 0}
     box_position = {'x': 0, 'y': 0}
     if ball_num == 0:
-        ball_position['x'] = 0.30
+        ball_position['x'] = 0.35
         ball_position['y'] = 0.20
         ball_position['z'] = 0.95
     elif ball_num == 1:
-        ball_position['x'] = 0.15
-        ball_position['y'] = 0.20
+        ball_position['x'] = 0.35
+        ball_position['y'] = 0.30
         ball_position['z'] = 0.95
     elif ball_num == 2:
-        ball_position['x'] = 0.30
-        ball_position['y'] = 0.30
-        ball_position['z'] = 0.95
-    elif ball_num == 3:
-        ball_position['x'] = 0.15
+        ball_position['x'] = 0.25
         ball_position['y'] = 0.20
         ball_position['z'] = 0.95
-    elif ball_num == 4:
-        ball_position['x'] = 0.30
+    elif ball_num == 3:
+        ball_position['x'] = 0.25
         ball_position['y'] = 0.30
+        ball_position['z'] = 0.95
+    elif ball_num == 4:
+        ball_position['x'] = 0.15
+        ball_position['y'] = 0.20
         ball_position['z'] = 0.95
     else:
         ball_position['x'] = 0.15
@@ -191,7 +191,7 @@ def move(ball_num, box_num):
         box_position['y'] = -0.20
     
     # ハンドを開く
-    gripper.set_joint_value_target([0.8, 0.8])
+    gripper.set_joint_value_target([0.9, 0.9])
     gripper.go()
 
     # 掴みに行く　各ボールの座標を入れる 
@@ -240,7 +240,7 @@ def move(ball_num, box_num):
     arm.set_pose_target(target_pose)  # 目標ポーズ設定
     arm.go()  # 実行
 
-    # 移動する2 箱の座標を入れる 上の箱(0.2,-0.19,1.0),下の箱(0.04,-0.2,1.0) z座標は0.3
+    # 移動する2 箱の座標を入れる 
     target_pose = geometry_msgs.msg.Pose()
     target_pose.position.x = box_position['x']
     target_pose.position.y = box_position['y']
