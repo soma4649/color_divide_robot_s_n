@@ -48,6 +48,8 @@
 　・画像から色のRGBを取得するスポイトツール [こちら](https://www.peko-step.com/tool/getcolor.html)
 
 　・OpenCVで画像から特定の色を抽出する [こちら](https://www.learning-nao.com/?p=1804)
+
+　・色認識サンプル [こちら](https://github.com/rt-net/crane_x7_ros/blob/ros2/crane_x7_examples/src/color_detection.cpp)
  
 ### README.mの書き方について
 
