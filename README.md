@@ -11,7 +11,10 @@
 OS: Ubuntu 20.04.5 LTS
 
 
-Gazebo 11.9.0 crane_x7 IntelRealSense
+crane_x7 
+
+
+IntelRealSense
 
 ---
 ## 環境構築
