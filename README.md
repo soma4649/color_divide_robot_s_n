@@ -11,7 +11,7 @@
 OS: Ubuntu 20.04.5 LTS
 
 
-crane_x7 
+crane_x7_ros
 
 
 IntelRealSense
