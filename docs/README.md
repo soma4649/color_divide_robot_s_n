@@ -46,6 +46,9 @@
 　・色認識・色検出 [こちら](https://data-analysis-stats.jp/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92/opencv-python%E3%81%A7%E3%81%AE%E8%89%B2%E8%AA%8D%E8%AD%98%E3%83%BB%E8%89%B2%E6%A4%9C%E5%87%BA/)
 
 　・画像から色のRGBを取得するスポイトツール [こちら](https://www.peko-step.com/tool/getcolor.html)
+
+　・OpenCVで画像から特定の色を抽出する [こちら](https://www.learning-nao.com/?p=1804)
+ 
 ### README.mの書き方について
 
 　・GitHub – READMEの作成方法と書き方 [こちら](https://howpon.com/8334)
