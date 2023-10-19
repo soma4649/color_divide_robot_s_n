@@ -51,9 +51,9 @@
 
 　・色認識サンプル [こちら](https://github.com/rt-net/crane_x7_ros/blob/ros2/crane_x7_examples/src/color_detection.cpp)
 
- ・リアルタイム動画から静止画を保存 [こちら](https://note.nkmk.me/python-opencv-camera-to-still-image/)
+　・リアルタイム動画から静止画を保存 [こちら](https://note.nkmk.me/python-opencv-camera-to-still-image/)
 
- ・ライントレースプログラム [こちら](https://qiita.com/hsgucci/items/4a5aa35aa9fd036621a7)
+　・ライントレースプログラム [こちら](https://qiita.com/hsgucci/items/4a5aa35aa9fd036621a7)
  
 ### README.mの書き方について
 
