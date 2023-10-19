@@ -127,12 +127,14 @@ export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZE
  使用したサイト：特定の色を検出するプログラム [こちら](https://craft-gogo.com/python-opencv-color-detection/)　
  
  
- RGBとHSVの相互変換 [こちら](https://www.petitmonte.com/javascript/rgb_hsv_convert.html)
+              RGBとHSVの相互変換 [こちら](https://www.petitmonte.com/javascript/rgb_hsv_convert.html)
 
  今回使用した色の範囲
 
 
  <赤色>
+
+ 
 lower = np.array([0,50,50])　upper = np.array([6,255,255])
 
 
@@ -140,10 +142,14 @@ lower = np.array([174,50,50])　upper = np.array([180,255,255])
 
 
  <青色>
+
+ 
 lower = np.array([90,64,0])　upper = np.array([150,255,255])
 
 
  <黄色>
+
+ 
 lower = np.array([20,150,0])　upper = np.array([30,255,255])
 
 
@@ -151,10 +157,14 @@ lower = np.array([174,150,0])　upper = np.array([255,255,255])
 
 
  <緑色>
+
+ 
 lower = np.array([30,64,0])　upper = np.array([90,255,255])
 
 
  <オレンジ色>
+
+ 
 lower = np.array([0,215,150])　upper = np.array([10,245,200])
 
 
