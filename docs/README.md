@@ -118,10 +118,38 @@ export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZE
 
 黃色　ambientを1 1 0 1、diffuseを1 1 0 1に変更。
 
+### 画像処理によって色を抜き出しマスク画像を作成
+
+ 解決策⇒以下のサイトを参考にマスク画像を作成する。
+
+ ⚠注意：他に使う色と範囲が被らないようにしないと同じものとして扱ってしまう。
+
+ 使用したサイト：特定の色を検出するプログラム [こちら](https://craft-gogo.com/python-opencv-color-detection/）　RGBとHSVの相互変換 [こちら](https://www.petitmonte.com/javascript/rgb_hsv_convert.html)
+
+ 今回使用した色の範囲
 
 
+ <赤色>
+lower = np.array([0,50,50])　upper = np.array([6,255,255])
 
 
+lower = np.array([174,50,50])　upper = np.array([180,255,255])
+ <青色>
+lower = np.array([90,64,0])　upper = np.array([150,255,255])
+
+ <黄色>
+lower = np.array([20,150,0])　upper = np.array([30,255,255])
+
+
+lower = np.array([174,150,0])　upper = np.array([255,255,255])
+ <緑色>
+lower = np.array([30,64,0])　upper = np.array([90,255,255])
+
+ <オレンジ色>
+lower = np.array([0,215,150])　upper = np.array([10,245,200])
+
+
+lower = np.array([150,215,150])　upper = np.array([160,245,200])
 
 
  
