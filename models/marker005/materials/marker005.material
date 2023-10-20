@@ -1,0 +1,10 @@
+material marker005 {
+  technique {
+    pass {
+      texture_unit {
+        texture marker005.png
+        scale 1 1
+      }
+    }
+  }
+}
