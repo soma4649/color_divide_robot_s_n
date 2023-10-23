@@ -23,7 +23,7 @@ Rviz1.14.10
 crane_x7_ros
 
 
-IntelRealSense
+IntelRealSense D435
 
 ---
 ## 環境構築
