@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="CRANE-X7 with Table">
+    <scene>
+      <shadows>0</shadows>
+    </scene>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <model name="sheet_red">
+      <include>
+        <uri>model://sheet_red</uri>
+      </include>
+
+      <pose>0.40 -0.20 0 0 0 0</pose>
+    </model>
+
+    <model name="sheet_green">
+      <include>
+        <uri>model://sheet_green</uri>
+      </include>
+
+      <pose>0.15 -0.20 0 0 0 0</pose>
+    </model>
+
+    <model name="sheet_orange">
+      <include>
+        <uri>model://sheet_orange</uri>
+      </include>
+
+      <pose>0.50 0.0 0 0 0 0</pose>
+    </model>
+
+    <model name="cube_red">
+      <include>
+        <uri>model://cube_red</uri>
+      </include>
+
+      <pose>0.25 0.175 0 0 0 0</pose>
+    </model>
+
+    <model name="cube_blue">
+      <include>
+        <uri>model://cube_blue</uri>
+      </include>
+
+      <pose>0.15 0.175 0 0 0 0</pose>
+    </model>
+
+    <model name="cube_yellow">
+      <include>
+        <uri>model://cube_yellow</uri>
+      </include>
+
+      <pose>0.25 0.275 0 0 0 0</pose>
+    </model>
+
+    <model name="cube_green">
+      <include>
+        <uri>model://cube_green</uri>
+      </include>
+
+      <pose>0.15 0.275 0 0 0 0</pose>
+    </model>
+
+     <model name="cube_red2">
+      <include>
+        <uri>model://cube_red</uri>
+      </include>
+
+      <pose>0.35 0.275 0 0 0 0</pose>
+    </model>
+
+     <model name="cube_green2">
+      <include>
+        <uri>model://cube_green</uri>
+      </include>
+
+      <pose>0.35 0.175 0 0 0 0</pose>
+    </model>
+
+    <model name="ground_plane">
+      <include>
+        <uri>model://ground_plane</uri>
+      </include>
+
+      <joint name='ground_joint' type='fixed'>
+        <parent>ground_plane::link</parent>
+        <child>table::link</child>
+      </joint>
+    </model>
+  </world>
+</sdf>
