@@ -9,28 +9,28 @@
       <uri>model://sun</uri>
     </include>
 
-    <model name="sheet_red">
+    <model name="box_1">
       <include>
-        <uri>model://sheet_red</uri>
+        <uri>model://box_1</uri>
       </include>
 
-      <pose>0.40 -0.20 0 0 0 0</pose>
+      <pose>0.70 -0.30 0 0 0 0</pose>
     </model>
 
-    <model name="sheet_green">
+    <model name="box_2">
       <include>
-        <uri>model://sheet_green</uri>
+        <uri>model://box_1</uri>
       </include>
 
-      <pose>0.15 -0.20 0 0 0 0</pose>
+      <pose>0.70 0.0 0 0 0 0</pose>
     </model>
 
-    <model name="sheet_orange">
+    <model name="box_3">
       <include>
-        <uri>model://sheet_orange</uri>
+        <uri>model://box_1</uri>
       </include>
 
-      <pose>0.50 0.0 0 0 0 0</pose>
+      <pose>0.70 0.3 0 0 0 0</pose>
     </model>
 
     <model name="cube_red">
