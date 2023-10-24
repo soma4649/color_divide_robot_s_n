@@ -81,6 +81,30 @@
       <pose>0.35 0.175 0 0 0 0</pose>
     </model>
 
+     <model name="marker000">
+      <include>
+        <uri>model://marker000</uri>
+      </include>
+
+      <static>1</static>
+    </model>
+
+     <model name="marker001">
+      <include>
+        <uri>model://marker001</uri>
+      </include>
+
+      <static>1</static>
+    </model>
+
+     <model name="marker002">
+      <include>
+        <uri>model://marker002</uri>
+      </include>
+
+      <static>1</static>
+    </model>
+
     <model name="ground_plane">
       <include>
         <uri>model://ground_plane</uri>

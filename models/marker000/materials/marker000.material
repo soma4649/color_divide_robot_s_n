@@ -2,7 +2,7 @@ material marker000 {
   technique {
     pass {
       texture_unit {
-        texture marker000.png
+        texture 01.png
         scale 1 1
       }
     }
