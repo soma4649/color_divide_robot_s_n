@@ -17,173 +17,404 @@
 
 import rospy
 import moveit_commander
-import actionlib
+import geometry_msgs.msg
+import rosnode
+from tf.transformations import quaternion_from_euler
+import cv2
+import os
+import numpy as np
+
 import math
-import random
-from geometry_msgs.msg import Point, Pose
-from gazebo_msgs.msg import ModelStates
-from control_msgs.msg import GripperCommandAction, GripperCommandGoal
-from tf.transformations import quaternion_from_euler, euler_from_quaternion
 
-gazebo_model_states = ModelStates()
+# 色判定したボールがゴミか貴重品か（1: 貴重品、0: ゴミ）
+result = [0, 0, 0, 0, 0, 0]
 
-def callback(msg):
-    global gazebo_model_states
-    gazebo_model_states = msg
+# acquisition_image.pyの内容
+
+# 画像データを取り出す
+def save_frame_camera(device_num, basename, ext='jpg', delay=1, window_name='frame'):
+    cap = cv2.VideoCapture(device_num)
+
+    if not cap.isOpened():
+        return
+
+    os.makedirs('data/temp', exist_ok=True)
+    base_path = os.path.join('data/temp', basename)
+
+    n = 0
+    while True:
+        ret, frame = cap.read()
+        cv2.imshow(window_name, frame)
+        n += 1
+        if n == 100:
+            img_0 = frame[0:540, 0:640]
+            img_1 = frame[0:540, 640:1280]
+            img_2 = frame[0:540, 1280:1920]
+            img_3 = frame[540:1080, 0:640]
+            img_4 = frame[540:1080, 640:1280]
+            img_5 = frame[540:1080, 1280:1920]
+
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original', 'jpg'), frame)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_0', 'jpg'), img_0)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_1', 'jpg'), img_1)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_2', 'jpg'), img_2)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_3', 'jpg'), img_3)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_4', 'jpg'), img_4)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_5', 'jpg'), img_5)
+            
+            detection_collar_red(img_0, base_path, 0)
+            detection_collar_red(img_1, base_path, 1)
+            detection_collar_red(img_2, base_path, 2)
+            detection_collar_red(img_3, base_path, 3)
+            detection_collar_red(img_4, base_path, 4)
+            detection_collar_red(img_5, base_path, 5)
+        
+            break
+    cv2.destroyWindow(window_name)
+    
+# カメラを使わず画像を使用する場合はこちらを使用する
+def read_image(image, basename):
+    img = cv2.imread(os.getcwd() + '/data/temp/' + image)
+    base_path = os.path.join('data/temp', basename)
+ 
+    img_0 = frame[0:540, 0:640]
+    img_1 = frame[0:540, 640:1280]
+    img_2 = frame[0:540, 1280:1920]
+    img_3 = frame[540:1080, 0:640]
+    img_4 = frame[540:1080, 640:1280]
+    img_5 = frame[540:1080, 1280:1920]
+
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original', 'jpg'), frame)
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_0', 'jpg'), img_0)
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_1', 'jpg'), img_1)
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_2', 'jpg'), img_2)
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_3', 'jpg'), img_3)
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_4', 'jpg'), img_4)
+    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_5', 'jpg'), img_5)
+
+    detection_collar_red(img_0, base_path, 0)
+    detection_collar_red(img_1, base_path, 1)
+    detection_collar_red(img_2, base_path, 2)
+    detection_collar_red(img_3, base_path, 3)
+    detection_collar_red(img_4, base_path, 4)
+    detection_collar_red(img_5, base_path, 5)
 
 
-def yaw_of(object_orientation):
-    # クォータニオンをオイラー角に変換しyaw角度を返す
-    euler = euler_from_quaternion(
-        (object_orientation.x, object_orientation.y,
-        object_orientation.z, object_orientation.w))
+# 画像データから色を判定する
+def detection_collar_red(frame, base_path, file_num):
+    
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    import rospy
+import moveit_commander
+import geometry_msgs.msg
+import rosnode
+from tf.transformations import quaternion_from_euler
+import cv2
+import os
+import numpy as np
 
-    return euler[2]
+import math
 
+# 色判定したボールがゴミか貴重品か（1: 貴重品、0: ゴミ）
+result = [0, 0, 0, 0, 0, 0]
 
-def main():
-    global gazebo_model_states
+# acquisition_image.pyの内容
 
-    OBJECT_NAME = "cubu_blue"   # 掴むオブジェクトの名前
-    OBJECT_NAME = "cubu_green" 
-    OBJECT_NAME = "cubu_red" 
-    OBJECT_NAME = "cubu_yellow" 
-    GRIPPER_OPEN = 1.2              # 掴む時のハンド開閉角度
-    GRIPPER_CLOSE = 0.42            # 設置時のハンド開閉角度
-    APPROACH_Z = 0.15               # 接近時のハンドの高さ
-    LEAVE_Z = 0.20                  # 離れる時のハンドの高さ
-    PICK_Z = 0.12                   # 掴む時のハンドの高さ
-    PLACE_POSITIONS = [             # オブジェクトの設置位置 
-            Point(0.10, 0.20, 1.0),
-            Point(0.1, 0.4, 1.0),
-            Point(0.3, 0.2, 1.0),
-            Point(0.3, 0.4, 1.0)]
+# 画像データを取り出す
+def save_frame_camera(device_num, basename, ext='jpg', delay=1, window_name='frame'):
+    cap = cv2.VideoCapture(device_num)
 
-    sub_model_states = rospy.Subscriber("gazebo/model_states", ModelStates, callback, queue_size=1)
+    if not cap.isOpened():
+        return
+
+    os.makedirs('data/temp', exist_ok=True)
+    base_path = os.path.join('data/temp', basename)
+
+    n = 0
+    while True:
+        ret, frame = cap.read()
+        cv2.imshow(window_name, frame)
+        n += 1
+        if n == 100:
+            img_0 = frame[0:540, 0:640]
+            img_1 = frame[0:540, 640:1280]
+            img_2 = frame[0:540, 1280:1920]
+            img_3 = frame[540:1080, 0:640]
+            img_4 = frame[540:1080, 640:1280]
+            img_5 = frame[540:1080, 1280:1920]
+
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original', 'jpg'), frame)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_0', 'jpg'), img_0)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_1', 'jpg'), img_1)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_2', 'jpg'), img_2)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_3', 'jpg'), img_3)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_4', 'jpg'), img_4)
+            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_5', 'jpg'), img_5)
+            
+            detection_collar_red(img_0, base_path, 0)
+            detection_collar_red(img_1, base_path, 1)
+            detection_collar_red(img_2, base_path, 2)
+            detection_collar_red(img_3, base_path, 3)
+            detection_collar_red(img_4, base_path, 4)
+            detection_collar_red(img_5, base_path, 5)
+        
+            break
+    cv2.destroyWindow(window_name)
+    
+# カメラを使わず画像を使用する場合はこちらを使用する
+def read_image(image, basename):
+    img = cv2.imread(os.getcwd() + '/data/temp/' + image)
+    base_path = os.path.join('data/temp', basename)
+ 
+    img_0 = frame[0:540, 0:640]
+    img_1 = frame[0:540, 640:1280]
+    img_2 = frame[0:540, 1280:1920]
+    img_3 = frame[540:1080, 0:640]
+    # 色の範囲を指定する
+    lower_color = np.array([0, 64, 0])
+    upper_color = np.array([5, 255, 255])
+    
+    # 指定した色に基づいたマスク画像の生成
+    mask = cv2.inRange(hsv, lower_color, upper_color)
+    masked_image = cv2.bitwise_and(hsv, hsv, mask = mask)
+        
+    cv2.imwrite('{}_{}_{}.{}'.format(base_path, 'mask', file_num, 'jpg'), masked_image)
+    
+    # ラベリング結果書き出し用に画像を準備
+    out_image = masked_image
+    
+    num_labels, label_image, stats, center = cv2.connectedComponentsWithStats(mask)
+
+    # 最大のラベルは画面全体を覆う黒なので不要．データを削除
+    num_labels = num_labels - 1
+    stats = np.delete(stats, 0, 0)
+    center = np.delete(center, 0, 0)
+
+    
+    # 検出したラベルの数だけ繰り返す
+    for index in range(num_labels):
+        if stats[index][4] > 40000:
+            # resultに判定結果を代入
+            result[file_num] = 1
+    
+            # ラベルのx,y,w,h,面積s,重心位置mx,myを取り出す
+            x = stats[index][0]
+            y = stats[index][1]
+            w = stats[index][2]
+            h = stats[index][3]
+            s = stats[index][4]
+            mx = int(center[index][0])
+            my = int(center[index][1])
+            #print("(x,y)=%d,%d (w,h)=%d,%d s=%d (mx,my)=%d,%d"%(x, y, w, h, s, mx, my) )
+
+            # ラベルを囲うバウンディングボックスを描画
+            cv2.rectangle(out_image, (x, y), (x+w, y+h), (255, 0, 255))
+
+            # 重心位置の座標と面積を表示
+            cv2.putText(out_image, "%d,%d"%(mx,my), (x-15, y+h+15), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 0))
+            cv2.putText(out_image, "%d"%(s), (x, y+h+30), cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 0))
+    
+    cv2.imwrite('{}_{}_{}.{}'.format(base_path, 'output', file_num, 'jpg'), out_image)
+
+    
+    return
+
+# acquisition_image.pyの内容 end
+
+# 準備体制に移動する。
+def pre_position():
+    rospy.init_node("crane_x7_pick_and_place_controller")
+    robot = moveit_commander.RobotCommander()
+    arm = moveit_commander.MoveGroupCommander("arm")
+    arm.set_max_velocity_scaling_factor(0.1)
+    arm.set_max_acceleration_scaling_factor(1.0)
+    gripper = moveit_commander.MoveGroupCommander("gripper")
+    target_pose = geometry_msgs.msg.Pose()
+    target_pose.position.x = 0.15
+    target_pose.position.y = 0.14
+    target_pose.position.z = 0.32
+    q = quaternion_from_euler(-3.14, 0.0, -6.28/2.0)
+    target_pose.orientation.x = q[0]
+    target_pose.orientation.y = q[1]
+    target_pose.orientation.z = q[2]
+    target_pose.orientation.w = q[3]
+    arm.set_pose_target(target_pose)
+    arm.go()  # 実行する。
+
+# ボールを掴んでかごに入れる。（box_num: ゴミ->0, 貴重品->1）
+def move(ball_num, box_num):
+    rospy.init_node("crane_x7_pick_and_place_controller")
+    robot = moveit_commander.RobotCommander()
+    arm = moveit_commander.MoveGroupCommander("arm")
+    arm.set_max_velocity_scaling_factor(0.1)
+    arm.set_max_acceleration_scaling_factor(1.0)
+    gripper = moveit_commander.MoveGroupCommander("gripper")
+    
+    # ボールの座標
+    ball_position = {'x': 0, 'y': 0, 'z': 0}
+    box_position = {'x': 0, 'y': 0}
+    if ball_num == 0:
+        ball_position['x'] = 0.35
+        ball_position['y'] = 0.175
+        ball_position['z'] = 0.1
+    elif ball_num == 1:
+        ball_position['x'] = 0.35
+        ball_position['y'] = 0.275
+        ball_position['z'] = 0.1
+    elif ball_num == 2:
+        ball_position['x'] = 0.25
+        ball_position['y'] = 0.175
+        ball_position['z'] = 0.1
+    elif ball_num == 3:
+        ball_position['x'] = 0.25
+        ball_position['y'] = 0.275
+        ball_position['z'] = 0.1
+    elif ball_num == 4:
+        ball_position['x'] = 0.15
+        ball_position['y'] = 0.175
+        ball_position['z'] = 0.1
+    else:
+        ball_position['x'] = 0.15
+        ball_position['y'] = 0.275
+        ball_position['z'] = 0.1
+        
+    # 箱の座標
+    if box_num == 0:
+        box_position['x'] = 0.4
+        box_position['y'] = 0.0
+        box_position['z'] = 0.25
+    elif box_num == 1:
+        box_position['x'] = 0.4
+        box_position['y'] = 0.0
+        box_position['z'] = 0.25
+    
+    # ハンドを開く
+    gripper.set_joint_value_target([0.8, 0.8])
+    gripper.go()
+
+    # 掴みに行く　各ボールの座標を入れる 
+    target_pose = geometry_msgs.msg.Pose()
+    target_pose.position.x = ball_position['x']
+    target_pose.position.y = ball_position['y']
+    target_pose.position.z = ball_position['z']
+    q = quaternion_from_euler(-3.14, 0.0, -1.14/2.0)  # 上方から掴みに行く場合
+    target_pose.orientation.x = q[0]
+    target_pose.orientation.y = q[1]
+    target_pose.orientation.z = q[2]
+    target_pose.orientation.w = q[3]
+    arm.set_pose_target(target_pose)  # 目標ポーズ設定
+    arm.go()  # 実行
+
+    # ハンドを閉じる
+    if box_num == 0:
+        gripper.set_joint_value_target([0.2, 0.2])
+    else:
+        gripper.set_joint_value_target([0.2, 0.2])
+    gripper.go()
+
+    # 持ち上げる 各ボールの座標を入れる
+    target_pose = geometry_msgs.msg.Pose()
+    target_pose.position.x = ball_position['x']
+    target_pose.position.y = ball_position['y']
+    target_pose.position.z = ball_position['z']
+    q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+    target_pose.orientation.x = q[0]
+    target_pose.orientation.y = q[1]
+    target_pose.orientation.z = q[2]
+    target_pose.orientation.w = q[3]
+    arm.set_pose_target(target_pose)  # 目標ポーズ設定
+    arm.go()	
 
     arm = moveit_commander.MoveGroupCommander("arm")
-    arm.set_max_velocity_scaling_factor(0.4)
+    # 駆動速度を調整する
+    arm.set_max_velocity_scaling_factor(0.7)
     arm.set_max_acceleration_scaling_factor(1.0)
-    gripper = actionlib.SimpleActionClient("crane_x7/gripper_controller/gripper_cmd", GripperCommandAction)
-    gripper.wait_for_server()
-    gripper_goal = GripperCommandGoal()
-    gripper_goal.command.max_effort = 4.0
 
+    # SRDFに定義されている"vertical"の姿勢にする
+    # すべてのジョイントの目標角度が0度になる
+    arm.set_named_target("vertical")
+    arm.go()
+
+    gripper.set_joint_value_target([0.9, 0.9])
+    gripper.go()
+
+    # 投げる
+    target_pose = geometry_msgs.msg.Pose()
+    target_pose.position.x = 0.4
+    target_pose.position.y = 0
+    target_pose.position.z = 0.25
+    q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+    target_pose.orientation.x = q[0]
+    target_pose.orientation.y = q[1]
+    target_pose.orientation.z = q[2]
+    target_pose.orientation.w = q[3]
+    arm.set_pose_target(target_pose)  # 目標ポーズ設定
+    arm.go()  # 実行
+
+def main():
+    rospy.init_node("crane_x7_pick_and_place_controller")
+    robot = moveit_commander.RobotCommander()
+    arm = moveit_commander.MoveGroupCommander("arm")
+    arm.set_max_velocity_scaling_factor(0.1)
+    arm.set_max_acceleration_scaling_factor(1.0)
+    gripper = moveit_commander.MoveGroupCommander("gripper")
+
+    while len([s for s in rosnode.get_node_names() if 'rviz' in s]) == 0:
+        rospy.sleep(1.0)
     rospy.sleep(1.0)
 
-    while True:
-        # 何かを掴んでいた時のためにハンドを開く
-        gripper_goal.command.position = GRIPPER_OPEN
-        gripper.send_goal(gripper_goal)
-        gripper.wait_for_result(rospy.Duration(1.0))
+    # アーム初期ポーズを表示
+    arm_initial_pose = arm.get_current_pose().pose
+    print("Arm initial pose:")
+    print(arm_initial_pose)
 
-        # SRDFに定義されている"home"の姿勢にする
-        arm.set_named_target("home")
-        arm.go()
-        rospy.sleep(1.0)
+    # 何かを掴んでいた時のためにハンドを開く
+    gripper.set_joint_value_target([0.9, 0.9])
+    gripper.go()
 
-        # 一定時間待機する
-        # この間に、ユーザがgazebo上のオブジェクト姿勢を変更しても良い
-        sleep_time = 3.0
-        print("Wait " + str(sleep_time) + " secs.")
-        rospy.sleep(sleep_time)
-        print("Start")
-
-        # オブジェクトがgazebo上に存在すれば、pick_and_placeを実行する
-        if OBJECT_NAME in gazebo_model_states.name:
-            object_index = gazebo_model_states.name.index(OBJECT_NAME)
-            # オブジェクトの姿勢を取得
-            object_position = gazebo_model_states.pose[object_index].position
-            object_orientation = gazebo_model_states.pose[object_index].orientation
-            object_yaw = yaw_of(object_orientation)
-
-            # オブジェクトに接近する
-            target_pose = Pose()
-            target_pose.position.x = object_position.x
-            target_pose.position.y = object_position.y
-            target_pose.position.z = APPROACH_Z
-            q = quaternion_from_euler(-math.pi, 0.0, object_yaw)
-            target_pose.orientation.x = q[0]
-            target_pose.orientation.y = q[1]
-            target_pose.orientation.z = q[2]
-            target_pose.orientation.w = q[3]
-            arm.set_pose_target(target_pose)
-            if arm.go() is False:
-                print("Failed to approach an object.")
-                continue
-            rospy.sleep(1.0)
-
-            # 掴みに行く
-            target_pose.position.z = PICK_Z
-            arm.set_pose_target(target_pose)
-            if arm.go() is False:
-                print("Failed to grip an object.")
-                continue
-            rospy.sleep(1.0)
-            gripper_goal.command.position = GRIPPER_CLOSE
-            gripper.send_goal(gripper_goal)
-            gripper.wait_for_result(rospy.Duration(1.0))
-
-            # 持ち上げる
-            target_pose.position.z = LEAVE_Z
-            arm.set_pose_target(target_pose)
-            if arm.go() is False:
-                print("Failed to pick up an object.")
-                continue
-            rospy.sleep(1.0)
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home")
+    arm.go()
+    gripper.set_joint_value_target([0.7, 0.7])
+    gripper.go()
+    
+    # bring_arm_above_ball.pyの内容
+    pre_position()
+    
+    # acquisition_image.pyの内容
+    save_frame_camera(6, 'camera_capture')
+    # read_image('sample_1.jpg', 'camera_capture')
+    
+    
+    # 判定結果を出力する。
+    print("判定結果: ")
+    print("左上: " + str(result[0]))
+    print("中上: " + str(result[1]))
+    print("右上: " + str(result[2]))
+    print("左下: " + str(result[3]))
+    print("中下: " + str(result[4]))
+    print("右下: " + str(result[5]))
+    
+    # 判定結果をもとにボールを移動させる。
+    for index, result_one in enumerate(result):
+        move(index, result_one)
+        pre_position()
             
-            # 設置位置に移動する
-            place_position = random.choice(PLACE_POSITIONS) # 設置位置をランダムに選択する
-            target_pose.position.x = place_position.x
-            target_pose.position.y = place_position.y
-            q = quaternion_from_euler(-math.pi, 0.0, -math.pi/2.0)
-            target_pose.orientation.x = q[0]
-            target_pose.orientation.y = q[1]
-            target_pose.orientation.z = q[2]
-            target_pose.orientation.w = q[3]
-            arm.set_pose_target(target_pose)
-            if arm.go() is False:
-                print("Failed to approach target position.")
-                continue
-            rospy.sleep(1.0)
-
-            # 設置する
-            target_pose.position.z = PICK_Z
-            arm.set_pose_target(target_pose)
-            if arm.go() is False:
-                print("Failed to place an object.")
-                continue
-            rospy.sleep(1.0)
-            gripper_goal.command.position = GRIPPER_OPEN
-            gripper.send_goal(gripper_goal)
-            gripper.wait_for_result(rospy.Duration(1.0))
-
-            # ハンドを上げる
-            target_pose.position.z = LEAVE_Z
-            arm.set_pose_target(target_pose)
-            if arm.go() is False:
-                print("Failed to leave from an object.")
-                continue
-            rospy.sleep(1.0)
-
-            # SRDFに定義されている"home"の姿勢にする
-            arm.set_named_target("home")
-            if arm.go() is False:
-                print("Failed to go back to home pose.")
-                continue
-            rospy.sleep(1.0)
-
-            print("Done")
-
-        else:
-            print("No objects")
-
+    # SRDFに定義されている"home"の姿勢にする
+    arm.set_named_target("home")
+    arm.go()
+    gripper.set_joint_value_target([0.7, 0.7])
+    gripper.go()
+    
+    
+    
+    return
 
 if __name__ == '__main__':
-    rospy.init_node("color_divide_robot_s_n")
 
     try:
         if not rospy.is_shutdown():
             main()
     except rospy.ROSInterruptException:
         pass
+   
