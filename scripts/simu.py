@@ -10,6 +10,8 @@ import cv2
 import os
 import numpy as np
 
+import math
+
 # 色判定したボールがゴミか貴重品か（1: 貴重品、0: ゴミ）
 result = [0, 0, 0, 0, 0, 0]
 
@@ -175,35 +177,37 @@ def move(ball_num, box_num):
     if ball_num == 0:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.115
+        ball_position['z'] = 0.1
     elif ball_num == 1:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.115
+        ball_position['z'] = 0.1
     elif ball_num == 2:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.115
+        ball_position['z'] = 0.1
     elif ball_num == 3:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.115
+        ball_position['z'] = 0.1
     elif ball_num == 4:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.115
+        ball_position['z'] = 0.1
     else:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.115
+        ball_position['z'] = 0.1
         
     # 箱の座標
     if box_num == 0:
-        box_position['x'] = 0.40
-        box_position['y'] = -0.20
+        box_position['x'] = 0.4
+        box_position['y'] = 0.0
+        box_position['z'] = 0.25
     elif box_num == 1:
-        box_position['x'] = 0.10
-        box_position['y'] = -0.20
+        box_position['x'] = 0.4
+        box_position['y'] = 0.0
+        box_position['z'] = 0.25
     
     # ハンドを開く
     gripper.set_joint_value_target([0.8, 0.8])
@@ -224,7 +228,7 @@ def move(ball_num, box_num):
 
     # ハンドを閉じる
     if box_num == 0:
-        gripper.set_joint_value_target([0.1, 0.1])
+        gripper.set_joint_value_target([0.2, 0.2])
     else:
         gripper.set_joint_value_target([0.2, 0.2])
     gripper.go()
@@ -240,56 +244,26 @@ def move(ball_num, box_num):
     target_pose.orientation.z = q[2]
     target_pose.orientation.w = q[3]
     arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    arm.go()							# 実行
+    arm.go()	
 
-    # 移動する1
-    target_pose = geometry_msgs.msg.Pose()
-    target_pose.position.x = 0.3
-    target_pose.position.y = 0
-    target_pose.position.z = 0.3
-    q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
-    target_pose.orientation.x = q[0]
-    target_pose.orientation.y = q[1]
-    target_pose.orientation.z = q[2]
-    target_pose.orientation.w = q[3]
-    arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    arm.go()  # 実行
+    arm = moveit_commander.MoveGroupCommander("arm")
+    # 駆動速度を調整する
+    arm.set_max_velocity_scaling_factor(0.7)
+    arm.set_max_acceleration_scaling_factor(1.0)
 
-    # 移動する2 箱の座標を入れる 
-    target_pose = geometry_msgs.msg.Pose()
-    target_pose.position.x = box_position['x']
-    target_pose.position.y = box_position['y']
-    target_pose.position.z = 0.3
-    q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
-    target_pose.orientation.x = q[0]
-    target_pose.orientation.y = q[1]
-    target_pose.orientation.z = q[2]
-    target_pose.orientation.w = q[3]
-    arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    arm.go()  # 実行
+    # SRDFに定義されている"vertical"の姿勢にする
+    # すべてのジョイントの目標角度が0度になる
+    arm.set_named_target("vertical")
+    arm.go()
 
-    # 下ろす　箱の座標入れる　z座標は0.2
-    target_pose = geometry_msgs.msg.Pose()
-    target_pose.position.x = box_position['x']
-    target_pose.position.y = box_position['y']
-    target_pose.position.z = 0.2
-    q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
-    target_pose.orientation.x = q[0]
-    target_pose.orientation.y = q[1]
-    target_pose.orientation.z = q[2]
-    target_pose.orientation.w = q[3]
-    arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    arm.go()  # 実行
-
-    # ハンドを開く
     gripper.set_joint_value_target([0.9, 0.9])
     gripper.go()
 
-    # 少しだけハンドを持ち上げる　箱の座標入れる z座標は0.3
+    # 投げる
     target_pose = geometry_msgs.msg.Pose()
-    target_pose.position.x = box_position['x']
-    target_pose.position.y = box_position['y']
-    target_pose.position.z = 0.3
+    target_pose.position.x = 0.4
+    target_pose.position.y = 0
+    target_pose.position.z = 0.25
     q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
     target_pose.orientation.x = q[0]
     target_pose.orientation.y = q[1]
