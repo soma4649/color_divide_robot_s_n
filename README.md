@@ -3,7 +3,7 @@
 
 ## 実装内容
  
-4色(赤、緑、青、黃)のブロックをアームが投げて、色を仕分けることが出来るサンプルコードです。全部で６つのブロックと３つの箱を使い、ブロックは赤色が２つ、緑色が２つ、青色が１つ、黄色が１つ、箱にはそれぞれ違うARマーカーを付けます。ブロックや箱の位置はそれぞれ入れ替えても仕分けが可能です。
+4色(赤、緑、青、黃)のブロックをアームが投げて、色を仕分けることが出来るサンプルコードです。全部で６つのブロックと３つの箱を使い、ブロックは赤色が２つ、緑色が２つ、青色が１つ、黄色が１つです。
  
  ---
 ## 動作環境
@@ -47,7 +47,6 @@ $ cd
 $ source ~/.bashrc
 $ roscore
 ```
-Ctrl+Cでプログラムの終了
 
 3 ワークスペースを作成し、~/.bashrcを編集
 
@@ -76,7 +75,7 @@ $ git clone https://github.com/roboticsgroup/roboticsgroup_gazebo_plugins.git
 $ rosdep install -r -y --from-paths --ignore-src crane_x7_ros
 $ ( cd ~/catkin_ws/ && catkin_make )
 ```  
-詳しくは[こちら](https://github.com/rt-net/crane_x7_ros)を参照してください。
+詳しくは[こちら](https://github.com/rt-net/crane_x7_ros)を参照。
 
 5 RVIZの動作確認
 
@@ -103,7 +102,7 @@ $ roslaunch crane_x7_gazebo crane_x7_with_table.launch
 
 ```  
 $ cd ~/catkin_ws/src  
-$ git clone  https://github.com/2021-RobotDesign3-team2/crane_x7_ros_test
+$ git clone  git@github.com:soma4649/color_divide_robot_s_n.git
 $ cd ~/catkin_ws
 $ catkin_make
 ```  
@@ -150,7 +149,18 @@ roslaunch color_divide_robot_s_n crane_x7_with_table.launch
 rosrun color_divide_robot_s_n main.py
 ```
 ### 実機起動用コマンド
-
+- /dev/ttyUSB0へのアクセス権変更のため、以下を実行。
 
 ```
+sudo chmod 666 /dev/ttyUSB0
+```
 
+- 実機起動コマンド
+```
+roslaunch crane_x7_bringup demo.launch fake_execution:=false
+```
+
+- 実行コマンド
+```
+rosrun color_divide_robot_s_n simu.py
+```
