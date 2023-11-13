@@ -81,9 +81,6 @@
       <pose>0.35 0.175 0 0 0 0</pose>
     </model>
 
-      <static>1</static>
-    </model>
-
     <model name="ground_plane">
       <include>
         <uri>model://ground_plane</uri>

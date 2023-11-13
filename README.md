@@ -162,5 +162,5 @@ roslaunch crane_x7_bringup demo.launch fake_execution:=false
 
 - 実行コマンド
 ```
-rosrun color_divide_robot_s_n simu.py
+rosrun color_divide_robot_s_n main.py
 ```
