@@ -15,16 +15,83 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import rospy
 import moveit_commander
 import geometry_msgs.msg
-import rosnode
 from tf.transformations import quaternion_from_euler
 import cv2
 import os
 import numpy as np
-
 import math
+import rospy, sys, time, actionlib
+import moveit_commander
+import geometry_msgs.msg
+import rosnode
+import math
+from std_msgs.msg import Float64
+from std_msgs.msg import Int32
+from control_msgs.msg import GripperCommandAction, GripperCommandGoal, FollowJointTrajectoryAction, FollowJointTrajectoryGoal
+from tf.transformations import quaternion_from_euler
+from trajectory_msgs.msg import JointTrajectoryPoint
+
+global Once_flag
+
+class ArmJointTrajectoryExample(object):
+    def __init__(self):
+        self._client = actionlib.SimpleActionClient(
+            "/crane_x7/arm_controller/follow_joint_trajectory", FollowJointTrajectoryAction)
+        rospy.sleep(0.1)
+        if not self._client.wait_for_server(rospy.Duration(secs=5)):
+            rospy.logerr("Action Server Not Found")
+            rospy.signal_shutdown("Action Server Not Found")
+            sys.exit(1)
+
+    def move_arm(self, joint_values, secs):
+        
+        goal = FollowJointTrajectoryGoal()
+        goal.trajectory.joint_names = ["crane_x7_shoulder_fixed_part_pan_joint", "crane_x7_shoulder_revolute_part_tilt_joint",
+                                       "crane_x7_upper_arm_revolute_part_twist_joint", "crane_x7_upper_arm_revolute_part_rotate_joint",
+                                       "crane_x7_lower_arm_fixed_part_joint", "crane_x7_lower_arm_revolute_part_joint", "crane_x7_wrist_joint"]
+        point = JointTrajectoryPoint()
+        for p in joint_values:            
+            point.positions.append(math.radians(p))           
+        point.time_from_start = rospy.Duration(secs)
+        goal.trajectory.points.append(point)
+        self._client.send_goal(goal)
+        
+    def wait(self, timeout=0.1):   
+        self._client.wait_for_result(timeout=rospy.Duration(timeout))
+        return self._client.get_result()
+        
+
+class GripperClient(object):
+    def __init__(self):
+        self._client = actionlib.SimpleActionClient("/crane_x7/gripper_controller/gripper_cmd",GripperCommandAction)
+        self.clear()
+
+        if not self._client.wait_for_server(rospy.Duration(10.0)):
+            rospy.logerr("Exiting - Gripper Action Server Not Found.")
+            rospy.signal_shutdown("Action Server not found.")
+            sys.exit(1)
+
+    def command(self, position, effort):
+        self._goal.command.position = position
+        self._goal.command.max_effort = effort
+        self._client.send_goal(self._goal,feedback_cb=self.feedback)
+        
+    def feedback(self,msg):
+        print("feedback callback")
+        print(msg)
+
+    def stop(self):
+        self._client.cancel_goal()
+
+    def wait(self, timeout=0.1):
+        self._client.wait_for_result(timeout=rospy.Duration(timeout))
+        return self._client.get_result()
+
+    def clear(self):
+        self._goal = GripperCommandGoal()
+
 
 # 色判定したボールがゴミか貴重品か（1: 貴重品、0: ゴミ）
 result = [0, 0, 0, 0, 0, 0]
@@ -334,6 +401,15 @@ def move(ball_num, box_num):
     # すべてのジョイントの目標角度が0度になる
     arm.set_named_target("vertical")
     arm.go()
+    
+    jt = ArmJointTrajectoryExample()
+    gc = GripperClient()
+        
+        
+    joint_values = [0,40.0, 0, 0, 0, 0, 0]
+    secs=1.0
+    jt.move_arm(joint_values, secs)
+    jt.wait(1.0)
 
     gripper.set_joint_value_target([0.4, 0.4])
     gripper.go()
@@ -343,18 +419,24 @@ def move(ball_num, box_num):
     arm.set_max_velocity_scaling_factor(0.7)
     arm.set_max_acceleration_scaling_factor(1.0)
 
+
+    joint_values = [0,-150.0, 0, 0, 0, 0, 0]
+    secs=0.5
+    jt.move_arm(joint_values, secs)
+    jt.wait(0.5)
+
     # 投げる
-    target_pose = geometry_msgs.msg.Pose()
-    target_pose.position.x = 0.4
-    target_pose.position.y = 0
-    target_pose.position.z = 0.25
-    q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
-    target_pose.orientation.x = q[0]
-    target_pose.orientation.y = q[1]
-    target_pose.orientation.z = q[2]
-    target_pose.orientation.w = q[3]
-    arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    arm.go()  # 実行
+    #target_pose = geometry_msgs.msg.Pose()
+    #target_pose.position.x = 0.4
+    #target_pose.position.y = 0
+    #target_pose.position.z = 0.25
+    #q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
+    #target_pose.orientation.x = q[0]
+    #target_pose.orientation.y = q[1]
+    #target_pose.orientation.z = q[2]
+    #target_pose.orientation.w = q[3]
+    #arm.set_pose_target(target_pose)  # 目標ポーズ設定
+    #arm.go()  # 実行
 
 def main():
     rospy.init_node("crane_x7_pick_and_place_controller")
