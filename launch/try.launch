@@ -1,0 +1,4 @@
+<launch>
+    <node name="image" pkg="color_divide_robot_s_n" type="image.py" required="true" output="screen" />
+    <node name="main" pkg="color_divide_robot_s_n" type="main.py" required="true" output="screen" />
+</launch>

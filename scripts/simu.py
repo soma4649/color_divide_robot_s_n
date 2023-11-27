@@ -202,7 +202,7 @@ def move(ball_num, box_num):
     # 箱の座標
     if box_num == 0:
         box_position['x'] = 0.4
-        box_position['y'] = 0.0
+        box_position['y'] = 0.2
         box_position['z'] = 0.25
     elif box_num == 1:
         box_position['x'] = 0.4
@@ -262,7 +262,7 @@ def move(ball_num, box_num):
     # 投げる
     target_pose = geometry_msgs.msg.Pose()
     target_pose.position.x = 0.4
-    target_pose.position.y = 0
+    target_pose.position.y = 0.2
     target_pose.position.z = 0.25
     q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
     target_pose.orientation.x = q[0]

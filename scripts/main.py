@@ -250,33 +250,33 @@ def move(ball_num, box_num):
     arm.set_max_acceleration_scaling_factor(1.0)
     gripper = moveit_commander.MoveGroupCommander("gripper")
     
-    # ボールの座標
+    # ブロックの座標
     ball_position = {'x': 0, 'y': 0, 'z': 0}
     box_position = {'x': 0, 'y': 0}
     if ball_num == 0:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.1
+        ball_position['z'] = 0.12
     elif ball_num == 1:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.1
+        ball_position['z'] = 0.12
     elif ball_num == 2:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.1
+        ball_position['z'] = 0.12
     elif ball_num == 3:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.1
+        ball_position['z'] = 0.12
     elif ball_num == 4:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.1
+        ball_position['z'] = 0.12
     else:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.1
+        ball_position['z'] = 0.12
         
     # 箱の座標
     if box_num == 0:
@@ -292,7 +292,7 @@ def move(ball_num, box_num):
     gripper.set_joint_value_target([0.8, 0.8])
     gripper.go()
 
-    # 掴みに行く　各ボールの座標を入れる 
+    # 掴む 
     target_pose = geometry_msgs.msg.Pose()
     target_pose.position.x = ball_position['x']
     target_pose.position.y = ball_position['y']
@@ -312,7 +312,7 @@ def move(ball_num, box_num):
         gripper.set_joint_value_target([0.2, 0.2])
     gripper.go()
 
-    # 持ち上げる 各ボールの座標を入れる
+    # 持ち上げる 
     target_pose = geometry_msgs.msg.Pose()
     target_pose.position.x = ball_position['x']
     target_pose.position.y = ball_position['y']
@@ -327,16 +327,21 @@ def move(ball_num, box_num):
 
     arm = moveit_commander.MoveGroupCommander("arm")
     # 駆動速度を調整する
-    arm.set_max_velocity_scaling_factor(0.7)
-    arm.set_max_acceleration_scaling_factor(1.0)
+    arm.set_max_velocity_scaling_factor(0.1)
+    arm.set_max_acceleration_scaling_factor(0.1)
 
     # SRDFに定義されている"vertical"の姿勢にする
     # すべてのジョイントの目標角度が0度になる
     arm.set_named_target("vertical")
     arm.go()
 
-    gripper.set_joint_value_target([0.9, 0.9])
+    gripper.set_joint_value_target([0.4, 0.4])
     gripper.go()
+
+    arm = moveit_commander.MoveGroupCommander("arm")
+    # 駆動速度を調整する
+    arm.set_max_velocity_scaling_factor(0.7)
+    arm.set_max_acceleration_scaling_factor(1.0)
 
     # 投げる
     target_pose = geometry_msgs.msg.Pose()
