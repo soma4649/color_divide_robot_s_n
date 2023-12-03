@@ -171,72 +171,7 @@ def read_image(image, basename):
 def detection_collar_red(frame, base_path, file_num):
     
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    import rospy
-import moveit_commander
-import geometry_msgs.msg
-import rosnode
-from tf.transformations import quaternion_from_euler
-import cv2
-import os
-import numpy as np
 
-import math
-
-# 色判定したボールがゴミか貴重品か（1: 貴重品、0: ゴミ）
-result = [0, 0, 0, 0, 0, 0]
-
-# acquisition_image.pyの内容
-
-# 画像データを取り出す
-def save_frame_camera(device_num, basename, ext='jpg', delay=1, window_name='frame'):
-    cap = cv2.VideoCapture(device_num)
-
-    if not cap.isOpened():
-        return
-
-    os.makedirs('data/temp', exist_ok=True)
-    base_path = os.path.join('data/temp', basename)
-
-    n = 0
-    while True:
-        ret, frame = cap.read()
-        cv2.imshow(window_name, frame)
-        n += 1
-        if n == 100:
-            img_0 = frame[0:540, 0:640]
-            img_1 = frame[0:540, 640:1280]
-            img_2 = frame[0:540, 1280:1920]
-            img_3 = frame[540:1080, 0:640]
-            img_4 = frame[540:1080, 640:1280]
-            img_5 = frame[540:1080, 1280:1920]
-
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original', 'jpg'), frame)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_0', 'jpg'), img_0)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_1', 'jpg'), img_1)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_2', 'jpg'), img_2)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_3', 'jpg'), img_3)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_4', 'jpg'), img_4)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_5', 'jpg'), img_5)
-            
-            detection_collar_red(img_0, base_path, 0)
-            detection_collar_red(img_1, base_path, 1)
-            detection_collar_red(img_2, base_path, 2)
-            detection_collar_red(img_3, base_path, 3)
-            detection_collar_red(img_4, base_path, 4)
-            detection_collar_red(img_5, base_path, 5)
-        
-            break
-    cv2.destroyWindow(window_name)
-    
-# カメラを使わず画像を使用する場合はこちらを使用する
-def read_image(image, basename):
-    img = cv2.imread(os.getcwd() + '/data/temp/' + image)
-    base_path = os.path.join('data/temp', basename)
- 
-    img_0 = frame[0:540, 0:640]
-    img_1 = frame[0:540, 640:1280]
-    img_2 = frame[0:540, 1280:1920]
-    img_3 = frame[540:1080, 0:640]
     # 色の範囲を指定する
     lower_color = np.array([0, 64, 0])
     upper_color = np.array([5, 255, 255])
@@ -323,27 +258,27 @@ def move(ball_num, box_num):
     if ball_num == 0:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.12
+        ball_position['z'] = 0.11
     elif ball_num == 1:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.12
+        ball_position['z'] = 0.11
     elif ball_num == 2:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.12
+        ball_position['z'] = 0.11
     elif ball_num == 3:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.12
+        ball_position['z'] = 0.11
     elif ball_num == 4:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.12
+        ball_position['z'] = 0.11
     else:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.12
+        ball_position['z'] = 0.11
         
     # 箱の座標
     if box_num == 0:
@@ -411,7 +346,7 @@ def move(ball_num, box_num):
     jt.move_arm(joint_values, secs)
     jt.wait(1.0)
 
-    gripper.set_joint_value_target([0.4, 0.4])
+    gripper.set_joint_value_target([0.5, 0.5])
     gripper.go()
 
     arm = moveit_commander.MoveGroupCommander("arm")
