@@ -164,15 +164,13 @@ CRANE-X7 is an arm robot developed by RT Corporation for research purposes. Plea
 
 We have obtained permission from ROBOTIS Co., Ltd. to use CAD models relating to servo motors XM540 and XM430. The proprietary rights relating to any components or parts manufactured by ROBOTIS and used in this product, including but not limited to copyrights, trademarks, and other intellectual property rights, shall remain vested in ROBOTIS.  
 
-### 参考にしたパッケージについて
+### 使用・参考にしたパッケージについて
 
 * README.mdの内容およびコードは、下記のスライド( CC-BY-SA 4.0 by Ryuichi Ueda)のものを参考にしています。
  
   * ryuichiueda/my_slides/robotdesign3_2021/lesson1.md[[Github Pages](https://ryuichiueda.github.io/my_slides/robotdesign3_2021/lesson1.html#/3)]
 
-* main.pyのコードは、
-
-
-
-
+* main.pyのコードは、2021-RobotDesign3-team2さんとtakanezawa0829さんのパッケージを参考にしています。
+  * 2021-RobotDesign3-team2[[Github Pages](https://github.com/2021-RobotDesign3-team2/crane_x7_ros_test)] ライセンスは[こちら](https://github.com/2021-RobotDesign3-team2/crane_x7_ros_test/blob/main/LICENSE)
+  * takanezawa0829[[Github Pages](https://github.com/takanezawa0829/automatic_sorting_machine)] ライセンスは[こちら](https://github.com/takanezawa0829/automatic_sorting_machine/blob/master/LICENSE)
 
