@@ -168,9 +168,11 @@ We have obtained permission from ROBOTIS Co., Ltd. to use CAD models relating to
 
 * README.mdの内容およびコードは、下記のスライド( CC-BY-SA 4.0 by Ryuichi Ueda)のものを参考にしています。
  
- * ryuichiueda/my_slides/robotdesign3_2021/lesson1.md[[Github Pages](https://ryuichiueda.github.io/my_slides/robotdesign3_2021/lesson1.html#/3)]
+  * ryuichiueda/my_slides/robotdesign3_2021/lesson1.md[[Github Pages](https://ryuichiueda.github.io/my_slides/robotdesign3_2021/lesson1.html#/3)]
 
-A
+* main.pyのコードは、
+
+
 
 
 
