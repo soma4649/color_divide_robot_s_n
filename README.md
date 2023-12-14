@@ -22,9 +22,6 @@ Rviz1.14.10
 
 crane_x7_ros
 
-
-IntelRealSense D435
-
 ---
 ## 環境構築
 
@@ -107,16 +104,6 @@ $ cd ~/catkin_ws
 $ catkin_make
 ```  
 
-8 RealSenseのセットアップ  
-[こちら](https://demura.net/robot/16525.html)のサイトを元にRealSense SDKとROSラッパーのインストールをしてください。
-
-9 OpenCVのインストール  
-```  
-$ wget --no-check-certificate https://raw.githubusercontent.com/milq/milq/master/scripts/bash/install-opencv.sh  
-$ chmod +x install-opencv.sh
-$ ./install-opencv.sh
-$ sudo apt-get install ros-melodic-cv-bridge
-```  
 ## 使用方法
 
 ### シミュレーター起動用コマンド
@@ -136,7 +123,7 @@ $ chmod +x src/color_divide_robot_s_n/scripts/main.py
 $ catkin_make
 $ source ~/.bashrc
 ```
-- 以上のコードを実行
+- 以下のコードを実行
 ```
 export GAZEBO_MODEL_PATH=$HOME/catkin_ws/src/color_divide_robot_s_n/models:$GAZEBO_MODEL_PATH
 ```
@@ -164,3 +151,9 @@ roslaunch crane_x7_bringup demo.launch fake_execution:=false
 ```
 roslaunch color_divide_robot_s_n try.launch
 ```
+
+## 著作権
+
+* このソフトウェアパッケージは、
+
+
