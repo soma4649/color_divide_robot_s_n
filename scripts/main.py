@@ -34,6 +34,7 @@ from tf.transformations import quaternion_from_euler
 from trajectory_msgs.msg import JointTrajectoryPoint
 
 global Once_flag
+n = 0
 
 class ArmJointTrajectoryExample(object):
     def __init__(self):
@@ -93,10 +94,8 @@ class GripperClient(object):
         self._goal = GripperCommandGoal()
 
 
-# 色判定したボールがゴミか貴重品か（1: 貴重品、0: ゴミ）
+# 結果の出力
 result = [0, 0, 0, 0, 0, 0]
-
-# acquisition_image.pyの内容
 
 # 画像データを取り出す
 def save_frame_camera(device_num, basename, ext='jpg', delay=1, window_name='frame'):
@@ -114,58 +113,23 @@ def save_frame_camera(device_num, basename, ext='jpg', delay=1, window_name='fra
         cv2.imshow(window_name, frame)
         n += 1
         if n == 100:
-            img_0 = frame[0:540, 0:640]
-            img_1 = frame[0:540, 640:1280]
-            img_2 = frame[0:540, 1280:1920]
-            img_3 = frame[540:1080, 0:640]
-            img_4 = frame[540:1080, 640:1280]
-            img_5 = frame[540:1080, 1280:1920]
-
+            img_0 = frame[0:540, 0:960]
+            img_1 = frame[0:540, 960:1920]
+            img_2 = frame[540:1080, 0:960]
+            img_3 = frame[540:1080, 960:1920]
             cv2.imwrite('{}_{}.{}'.format(base_path, 'original', 'jpg'), frame)
             cv2.imwrite('{}_{}.{}'.format(base_path, 'original_0', 'jpg'), img_0)
             cv2.imwrite('{}_{}.{}'.format(base_path, 'original_1', 'jpg'), img_1)
             cv2.imwrite('{}_{}.{}'.format(base_path, 'original_2', 'jpg'), img_2)
             cv2.imwrite('{}_{}.{}'.format(base_path, 'original_3', 'jpg'), img_3)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_4', 'jpg'), img_4)
-            cv2.imwrite('{}_{}.{}'.format(base_path, 'original_5', 'jpg'), img_5)
             
             detection_collar_red(img_0, base_path, 0)
             detection_collar_red(img_1, base_path, 1)
             detection_collar_red(img_2, base_path, 2)
             detection_collar_red(img_3, base_path, 3)
-            detection_collar_red(img_4, base_path, 4)
-            detection_collar_red(img_5, base_path, 5)
         
             break
     cv2.destroyWindow(window_name)
-    
-# カメラを使わず画像を使用する場合はこちらを使用する
-def read_image(image, basename):
-    img = cv2.imread(os.getcwd() + '/data/temp/' + image)
-    base_path = os.path.join('data/temp', basename)
- 
-    img_0 = frame[0:540, 0:640]
-    img_1 = frame[0:540, 640:1280]
-    img_2 = frame[0:540, 1280:1920]
-    img_3 = frame[540:1080, 0:640]
-    img_4 = frame[540:1080, 640:1280]
-    img_5 = frame[540:1080, 1280:1920]
-
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original', 'jpg'), frame)
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_0', 'jpg'), img_0)
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_1', 'jpg'), img_1)
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_2', 'jpg'), img_2)
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_3', 'jpg'), img_3)
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_4', 'jpg'), img_4)
-    cv2.imwrite('{}_{}.{}'.format(base_path, 'original_5', 'jpg'), img_5)
-
-    detection_collar_red(img_0, base_path, 0)
-    detection_collar_red(img_1, base_path, 1)
-    detection_collar_red(img_2, base_path, 2)
-    detection_collar_red(img_3, base_path, 3)
-    detection_collar_red(img_4, base_path, 4)
-    detection_collar_red(img_5, base_path, 5)
-
 
 # 画像データから色を判定する
 def detection_collar_red(frame, base_path, file_num):
@@ -218,10 +182,7 @@ def detection_collar_red(frame, base_path, file_num):
     
     cv2.imwrite('{}_{}_{}.{}'.format(base_path, 'output', file_num, 'jpg'), out_image)
 
-    
     return
-
-# acquisition_image.pyの内容 end
 
 # 準備体制に移動する。
 def pre_position():
@@ -251,6 +212,8 @@ def move(ball_num, box_num):
     arm.set_max_velocity_scaling_factor(0.1)
     arm.set_max_acceleration_scaling_factor(1.0)
     gripper = moveit_commander.MoveGroupCommander("gripper")
+
+    global n #繰り返し関数
     
     # ブロックの座標
     ball_position = {'x': 0, 'y': 0, 'z': 0}
@@ -258,27 +221,27 @@ def move(ball_num, box_num):
     if ball_num == 0:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.11
+        ball_position['z'] = 0.1
     elif ball_num == 1:
         ball_position['x'] = 0.35
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.11
+        ball_position['z'] = 0.1
     elif ball_num == 2:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.11
+        ball_position['z'] = 0.1
     elif ball_num == 3:
         ball_position['x'] = 0.25
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.11
+        ball_position['z'] = 0.1
     elif ball_num == 4:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.175
-        ball_position['z'] = 0.11
+        ball_position['z'] = 0.1
     else:
         ball_position['x'] = 0.15
         ball_position['y'] = 0.275
-        ball_position['z'] = 0.11
+        ball_position['z'] = 0.1
         
     # 箱の座標
     if box_num == 0:
@@ -337,41 +300,86 @@ def move(ball_num, box_num):
     arm.set_named_target("vertical")
     arm.go()
     
-    jt = ArmJointTrajectoryExample()
-    gc = GripperClient()
-        
-        
-    joint_values = [0,40.0, 0, 0, 0, 0, 0]
-    secs=1.0
-    jt.move_arm(joint_values, secs)
-    jt.wait(1.0)
+    if n == 0 or n == 3:    #赤色のブロックを投げ入れる
+        print("赤")
+        print(n)
+        jt = ArmJointTrajectoryExample()
+        gc = GripperClient()
 
-    gripper.set_joint_value_target([0.5, 0.5])
-    gripper.go()
+        joint_values = [25.0, 40.0, 0, 0, 0, 0, 0]
+        secs=2.0
+        jt.move_arm(joint_values, secs)
+        jt.wait(2.0)
 
-    arm = moveit_commander.MoveGroupCommander("arm")
-    # 駆動速度を調整する
-    arm.set_max_velocity_scaling_factor(0.7)
-    arm.set_max_acceleration_scaling_factor(1.0)
+        gripper.set_joint_value_target([0.4, 0.4])
+        gripper.go()
+       
+        arm = moveit_commander.MoveGroupCommander("arm")
+        # 駆動速度を調整する
+        arm.set_max_velocity_scaling_factor(0.7)
+        arm.set_max_acceleration_scaling_factor(1.0)
 
+        joint_values = [25.0, -75.0, 0, 0, 0, 0, 0]
+        secs=0.5
+        jt.move_arm(joint_values, secs)
+        jt.wait(0.5)
 
-    joint_values = [0,-150.0, 0, 0, 0, 0, 0]
-    secs=0.5
-    jt.move_arm(joint_values, secs)
-    jt.wait(0.5)
+        n += 1
+     
+    elif n == 1 or n == 4:   #緑色のブロックを投げ入れる
+        print("緑")
+        print(n)
 
-    # 投げる
-    #target_pose = geometry_msgs.msg.Pose()
-    #target_pose.position.x = 0.4
-    #target_pose.position.y = 0
-    #target_pose.position.z = 0.25
-    #q = quaternion_from_euler(-3.14, 0.0, -3.14/2.0)  # 上方から掴みに行く場合
-    #target_pose.orientation.x = q[0]
-    #target_pose.orientation.y = q[1]
-    #target_pose.orientation.z = q[2]
-    #target_pose.orientation.w = q[3]
-    #arm.set_pose_target(target_pose)  # 目標ポーズ設定
-    #arm.go()  # 実行
+        jt = ArmJointTrajectoryExample()
+        gc = GripperClient()
+
+        joint_values = [ 0, 40.0, 0, 0, 0, 0, 0]
+        secs=2.0
+        jt.move_arm(joint_values, secs)
+        jt.wait(2.0)
+
+        gripper.set_joint_value_target([0.4, 0.4])
+        gripper.go()
+
+        arm = moveit_commander.MoveGroupCommander("arm")
+        # 駆動速度を調整する
+        arm.set_max_velocity_scaling_factor(0.7)
+        arm.set_max_acceleration_scaling_factor(1.0)
+
+        joint_values = [ 0, -75.0, 0, 0, 0, 0, 0]
+        secs=0.5
+        jt.move_arm(joint_values, secs)
+        jt.wait(0.5)
+
+        n += 1
+
+    elif n == 2 or n == 5:   #その他のブロックを投げ入れる
+        print("その他")
+        print(n)
+
+        jt = ArmJointTrajectoryExample()
+        gc = GripperClient()
+
+        joint_values = [ -25.0, 40.0, 0, 0, 0, 0, 0]
+        secs=2.0
+        jt.move_arm(joint_values, secs)
+        jt.wait(2.0)
+
+        gripper.set_joint_value_target([0.4, 0.4])
+        gripper.go()
+
+        arm = moveit_commander.MoveGroupCommander("arm")
+        # 駆動速度を調整する
+        arm.set_max_velocity_scaling_factor(0.7)
+        arm.set_max_acceleration_scaling_factor(1.0)
+
+        joint_values = [-25.0,-75.0, 0, 0, 0, 0, 0]
+        secs=0.5
+        jt.move_arm(joint_values, secs)
+        jt.wait(0.5)
+
+        n += 1
+
 
 def main():
     rospy.init_node("crane_x7_pick_and_place_controller")
@@ -421,7 +429,7 @@ def main():
     for index, result_one in enumerate(result):
         move(index, result_one)
         pre_position()
-            
+
     # SRDFに定義されている"home"の姿勢にする
     arm.set_named_target("home")
     arm.go()

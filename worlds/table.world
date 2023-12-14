@@ -19,7 +19,7 @@
 
     <model name="box_2">
       <include>
-        <uri>model://box_1</uri>
+        <uri>model://box_2</uri>
       </include>
 
       <pose>1.2 0.0 0 0 0 0</pose>
@@ -27,7 +27,7 @@
 
     <model name="box_3">
       <include>
-        <uri>model://box_1</uri>
+        <uri>model://box_3</uri>
       </include>
 
       <pose>1.2 0.3 0 0 0 0</pose>
@@ -38,7 +38,7 @@
         <uri>model://cube_red</uri>
       </include>
 
-      <pose>0.25 0.175 0 0 0 0</pose>
+      <pose>0.35 0.175 0 0 0 0</pose>
     </model>
 
     <model name="cube_blue">
@@ -46,7 +46,7 @@
         <uri>model://cube_blue</uri>
       </include>
 
-      <pose>0.15 0.175 0 0 0 0</pose>
+      <pose>0.25 0.175 0 0 0 0</pose>
     </model>
 
     <model name="cube_yellow">
@@ -54,7 +54,7 @@
         <uri>model://cube_yellow</uri>
       </include>
 
-      <pose>0.25 0.275 0 0 0 0</pose>
+      <pose>0.15 0.275 0 0 0 0</pose>
     </model>
 
     <model name="cube_green">
@@ -62,7 +62,7 @@
         <uri>model://cube_green</uri>
       </include>
 
-      <pose>0.15 0.275 0 0 0 0</pose>
+      <pose>0.35 0.275 0 0 0 0</pose>
     </model>
 
      <model name="cube_red2">
@@ -70,7 +70,7 @@
         <uri>model://cube_red</uri>
       </include>
 
-      <pose>0.35 0.275 0 0 0 0</pose>
+      <pose>0.25 0.275 0 0 0 0</pose>
     </model>
 
      <model name="cube_green2">
@@ -78,7 +78,7 @@
         <uri>model://cube_green</uri>
       </include>
 
-      <pose>0.35 0.175 0 0 0 0</pose>
+      <pose>0.15 0.175 0 0 0 0</pose>
     </model>
 
     <model name="ground_plane">
