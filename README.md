@@ -149,7 +149,7 @@ roslaunch crane_x7_bringup demo.launch fake_execution:=false
 
 - 実行コマンド
 ```
-roslaunch color_divide_robot_s_n try.launch
+rosrun color_divide_robot_s_n main.py
 ```
 
 ## 著作権
