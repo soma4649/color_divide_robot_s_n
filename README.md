@@ -20,7 +20,7 @@ Gazebo11
 Rviz1.14.10
 
 
-crane_x7_ros
+CRANE_X7 ROS
 
 ---
 ## 環境構築
@@ -174,3 +174,4 @@ We have obtained permission from ROBOTIS Co., Ltd. to use CAD models relating to
   * 2021-RobotDesign3-team2[[Github Pages](https://github.com/2021-RobotDesign3-team2/crane_x7_ros_test)] ライセンスは[こちら](https://github.com/2021-RobotDesign3-team2/crane_x7_ros_test/blob/main/LICENSE)
   * takanezawa0829[[Github Pages](https://github.com/takanezawa0829/automatic_sorting_machine)] ライセンスは[こちら](https://github.com/takanezawa0829/automatic_sorting_machine/blob/master/LICENSE)
 
+* © 2023 Takeru Soma
